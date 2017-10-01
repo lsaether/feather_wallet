@@ -1,0 +1,9 @@
+[package]
+name = "litwallet"
+version = "0.1.0"
+authors = ["lsaether <Lsaether@protonmail.com>"]
+
+[dependencies]
+base64 = "0.7.0"
+bip39 = "0.4.1"
+rand = "0.3"
