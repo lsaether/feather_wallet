@@ -10,17 +10,20 @@ use std::io::prelude::*;
 
 extern crate feather_wallet;
 
-use feather_wallet::Salt;
+use feather_wallet::{ Salt, LightWallet };
 
 fn main() {
     let pw = prompt("Please type your password...\n");
 
-    // let keystore = LightWallet::new_vault(pw);
+    let wallet = LightWallet::default();
+    let key: [u8;64] = wallet.derive_key(&pw);
+
+    println!("{:?}", &key[0..32]);
 
     println!("{}", pw.as_str());
     let test = Salt::new();
 
-    println!("{}", test.salt);
+    println!("{}", test.salt_encoded);
 }
 
 fn prompt(message: &str) -> String {

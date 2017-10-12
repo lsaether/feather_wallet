@@ -28,14 +28,14 @@ impl Default for LightWallet {
 }
 
 impl LightWallet {
-    pub fn deriveKey(&self, pw: &str) -> [u8;32] {
-        let mut buf: [u8;32] = [0u8;32];
+    pub fn derive_key(&self, pw: &str) -> [u8;64] {
+        let mut buf: [u8;64] = [0u8;64];
 
         let log_n: u8 = 14;
         let r: u32 = 8;
-        let p: u32 = 32;
+        let p: u32 = 1;
 
-        let salt_bytes = base64::decode(&self.salt.salt).unwrap();
+        let salt_bytes = base64::decode(&self.salt.salt_encoded).unwrap();
         let scrypt_params = ScryptParams::new(log_n, r, p);
         scrypt(pw.as_bytes(), &salt_bytes, &scrypt_params, &mut buf);
         
@@ -44,13 +44,13 @@ impl LightWallet {
 }
 
 pub struct Salt {
-    pub salt: String,
+    pub salt_encoded: String,
 }
 
 impl Salt {
     pub fn new() -> Salt {
         Salt {
-            salt: base64::encode(&Salt::generate_random_32bytes()),
+            salt_encoded: base64::encode(&Salt::generate_random_32bytes()),
         }
     }
 
