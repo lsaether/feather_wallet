@@ -14,7 +14,7 @@ use lib::Salt;
 fn main() {
     let pw = prompt("Please type your password...\n");
 
-    let keystore = LightWallet::new_vault(pw);
+    // let keystore = LightWallet::new_vault(pw);
 
     println!("{}", pw.as_str());
     let test = Salt::new();

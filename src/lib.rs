@@ -1,9 +1,11 @@
 extern crate base64;
 extern crate bip39;
 extern crate rand;
+extern crate ring_pwhash;
 
 use bip39::{Mnemonic, MnemonicType, Language, Seed};
 use rand::Rng;
+use ring_pwhash::scrypt;
 
 pub struct LightWallet {
     hd_path_string: String,
@@ -12,7 +14,7 @@ pub struct LightWallet {
 }
 
 impl Default for LightWallet {
-    pub fn default() -> LightWallet {
+    fn default() -> LightWallet {
         let mnemonic = match Mnemonic::new(MnemonicType::Type12Words, Language::English, "") {
             Ok(b) => b,
             Err(e) => panic!("Error! {}", e)
@@ -26,11 +28,15 @@ impl Default for LightWallet {
 }
 
 impl LightWallet {
-    pub fn deriveKey(&self, pw: &str) -> [u8] {
+    pub fn deriveKey(&self, pw: &str) -> &[u8] {
         let logN = 14;
         let r = 8;
         let dkLen = 32;
         let interruptStep = 200;
+
+        scrypt(pw.to_bytes(), self.salt.to_bytes())
+
+        &[0u8]
     }
 }
 
