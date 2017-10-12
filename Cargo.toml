@@ -1,9 +1,10 @@
 [package]
 name = "feather_wallet"
-version = "0.1.0"
+version = "0.0.3"
 authors = ["lsaether <Lsaether@protonmail.com>"]
 
 [dependencies]
 base64 = "0.7.0"
 bip39 = "0.4.1"
 rand = "0.3"
+rust-scrypt = "0.1.0"

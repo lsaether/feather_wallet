@@ -4,15 +4,32 @@ extern crate bip39;
 
 use bip39::{Mnemonic, MnemonicType, Language, Seed};
 use rand::Rng;
+use std::io;
+use std::io::prelude::*;
 
 mod lib;
 
 use lib::Salt;
 
 fn main() {
+    let pw = prompt("Please type your password...\n");
+
+    let keystore = LightWallet::new_vault(pw);
+
+    println!("{}", pw.as_str());
     let test = Salt::new();
 
     println!("{}", test.salt);
+}
+
+fn prompt(message: &str) -> String {
+    println!("{}", &message);
+
+    let mut input = String::new();
+
+    io::stdin().read_line(&mut input);
+    let res = String::from(input.trim());
+    res
 }
 
 

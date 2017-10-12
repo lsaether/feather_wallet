@@ -12,7 +12,7 @@ pub struct LightWallet {
 }
 
 impl Default for LightWallet {
-    fn default() -> LightWallet {
+    pub fn default() -> LightWallet {
         let mnemonic = match Mnemonic::new(MnemonicType::Type12Words, Language::English, "") {
             Ok(b) => b,
             Err(e) => panic!("Error! {}", e)
@@ -22,6 +22,15 @@ impl Default for LightWallet {
             seed: mnemonic.get_seed(),
             salt: Salt::new(),
         }
+    }
+}
+
+impl LightWallet {
+    pub fn deriveKey(&self, pw: &str) -> [u8] {
+        let logN = 14;
+        let r = 8;
+        let dkLen = 32;
+        let interruptStep = 200;
     }
 }
 
