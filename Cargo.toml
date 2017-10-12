@@ -1,5 +1,5 @@
 [package]
-name = "litwallet"
+name = "feather_wallet"
 version = "0.1.0"
 authors = ["lsaether <Lsaether@protonmail.com>"]
 

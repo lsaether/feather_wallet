@@ -5,7 +5,7 @@ extern crate rand;
 use bip39::{Mnemonic, MnemonicType, Language, Seed};
 use rand::Rng;
 
-struct LightWallet {
+pub struct LightWallet {
     hd_path_string: String,
     seed: Seed,
     salt: Salt,
@@ -25,8 +25,8 @@ impl Default for LightWallet {
     }
 }
 
-struct Salt {
-    salt: String,
+pub struct Salt {
+    pub salt: String,
 }
 
 impl Salt {
@@ -36,7 +36,7 @@ impl Salt {
         }
     }
 
-    pub fn generate_random_32bytes() -> [u8;32] {
+    fn generate_random_32bytes() -> [u8;32] {
         let mut rng = rand::thread_rng();
         let res = rng.gen::<[u8;32]>();
         res
