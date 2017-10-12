@@ -7,4 +7,4 @@ authors = ["lsaether <Lsaether@protonmail.com>"]
 base64 = "0.7.0"
 bip39 = "0.4.1"
 rand = "0.3"
-ring-pwhash = "0.11.0"
+ring-pwhash = { path = "../ring-pwhash/" }

@@ -1,15 +1,16 @@
 extern crate rand;
 extern crate base64;
 extern crate bip39;
+extern crate ring_pwhash;
 
 use bip39::{Mnemonic, MnemonicType, Language, Seed};
 use rand::Rng;
 use std::io;
 use std::io::prelude::*;
 
-mod lib;
+extern crate feather_wallet;
 
-use lib::Salt;
+use feather_wallet::Salt;
 
 fn main() {
     let pw = prompt("Please type your password...\n");

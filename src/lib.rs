@@ -3,9 +3,9 @@ extern crate bip39;
 extern crate rand;
 extern crate ring_pwhash;
 
-use bip39::{Mnemonic, MnemonicType, Language, Seed};
+use bip39::{ Mnemonic, MnemonicType, Language, Seed };
 use rand::Rng;
-use ring_pwhash::scrypt;
+use ring_pwhash::scrypt::{ ScryptParams, scrypt };
 
 pub struct LightWallet {
     hd_path_string: String,
@@ -28,15 +28,18 @@ impl Default for LightWallet {
 }
 
 impl LightWallet {
-    pub fn deriveKey(&self, pw: &str) -> &[u8] {
-        let logN = 14;
-        let r = 8;
-        let dkLen = 32;
-        let interruptStep = 200;
+    pub fn deriveKey(&self, pw: &str) -> [u8;32] {
+        let mut buf: [u8;32] = [0u8;32];
 
-        scrypt(pw.to_bytes(), self.salt.to_bytes())
+        let log_n: u8 = 14;
+        let r: u32 = 8;
+        let p: u32 = 32;
 
-        &[0u8]
+        let salt_bytes = base64::decode(&self.salt.salt).unwrap();
+        let scrypt_params = ScryptParams::new(log_n, r, p);
+        scrypt(pw.as_bytes(), &salt_bytes, &scrypt_params, &mut buf);
+        
+        buf
     }
 }
 
