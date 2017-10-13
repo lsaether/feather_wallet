@@ -4,7 +4,7 @@ extern crate bip39;
 extern crate ring_pwhash;
 extern crate serde;
 extern crate serde_json;
-
+/// TODO: Perhaps, serde_toml
 #[macro_use] 
 extern crate serde_derive;
 
@@ -12,6 +12,7 @@ use bip39::{ Mnemonic, MnemonicType, Language, Seed };
 use rand::Rng;
 use std::io;
 use std::io::prelude::*;
+use std::fs::File;
 
 extern crate feather_wallet;
 
@@ -23,8 +24,19 @@ fn main() {
     let wallet = LightWallet::default();
     // let priv_key = wallet.master_key();
 
-    let json = serde_json::to_string(&wallet).unwrap();
-    println!("{}", &json);
+    let json = serde_json::to_vec(&wallet).unwrap();
+    match File::open("keystore.json") {
+        Ok(mut f) => f.write(&json),
+        Err(e) => File::create("keystore.json").unwrap().write(&json),
+    };
+
+    let wallet2 = LightWallet::from_file("keystore.json");
+
+    println!("{:?}\n{:?}", wallet, wallet2);
+
+
+
+
     // println!("{:?}", priv_key.secret_key);
     // println!("\n{:?}", priv_key);
 

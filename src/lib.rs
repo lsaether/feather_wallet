@@ -16,8 +16,10 @@ use bitcoin::network::constants::Network;
 use rand::Rng;
 use ring_pwhash::scrypt::{ ScryptParams, scrypt };
 use secp256k1::Secp256k1;
+use std::fs::File;
+use std::io::prelude::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct LightWallet {
     hd_path_string: String,
     seed: Vec<u8>,
@@ -60,12 +62,20 @@ impl LightWallet {
         ExtendedPrivKey::new_master(&Secp256k1::new(), Network::Bitcoin, &self.seed).unwrap()
     }
 
-    // pub fn serialize(&self) -> String {
+    pub fn from_file(file_path: &str) -> LightWallet {
+        let mut keystore = File::open(file_path).unwrap();
+        let mut contents = String::new();
+        keystore.read_to_string(&mut contents).unwrap();
+        let wallet = serde_json::from_str(&contents).unwrap();
+        wallet
+    }
+
+    // pub fn from_mnemonic(m: &str) -> LightWallet {
 
     // }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Salt {
     pub salt_encoded: String,
 }
