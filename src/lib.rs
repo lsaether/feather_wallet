@@ -28,18 +28,17 @@ impl Default for LightWallet {
 }
 
 impl LightWallet {
-    pub fn derive_key(&self, pw: &str) -> [u8;64] {
-        let mut buf: [u8;64] = [0u8;64];
-
+    pub fn derive_key(&self, pw: &str) -> [u8;32] {
         let log_n: u8 = 14;
         let r: u32 = 8;
         let p: u32 = 1;
+        let mut dk_len: [u8;32] = [0u8;32];
 
         let salt_bytes = base64::decode(&self.salt.salt_encoded).unwrap();
         let scrypt_params = ScryptParams::new(log_n, r, p);
-        scrypt(pw.as_bytes(), &salt_bytes, &scrypt_params, &mut buf);
+        scrypt(pw.as_bytes(), &salt_bytes, &scrypt_params, &mut dk_len);
         
-        buf
+        dk_len
     }
 }
 
