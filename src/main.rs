@@ -16,9 +16,13 @@ fn main() {
     let pw = prompt("Please type your password...\n");
 
     let wallet = LightWallet::default();
-    let key: [u8;32] = wallet.derive_pw_key(&pw);
+    let priv_key = wallet.master_key();
 
-    println!("{:?}", &key);
+    println!("{:?}", priv_key.secret_key);
+
+    // let key: [u8;32] = wallet.derive_pw_key(&pw);
+
+    // println!("{:?}", &key);
 
     println!("{}", pw.as_str());
     let test = Salt::new();

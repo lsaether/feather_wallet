@@ -7,6 +7,7 @@ dependencies = [
  "bitcoin 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
  "ring-pwhash 0.11.0",
+ "secp256k1 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
