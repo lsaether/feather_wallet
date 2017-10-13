@@ -1,11 +1,17 @@
 extern crate base64;
 extern crate bip39;
+extern crate bitcoin;
 extern crate rand;
 extern crate ring_pwhash;
 
 use bip39::{ Mnemonic, MnemonicType, Language, Seed };
+use bitcoin::util::bip32::*;
 use rand::Rng;
 use ring_pwhash::scrypt::{ ScryptParams, scrypt };
+
+mod network;
+
+use network::Network;
 
 pub struct LightWallet {
     hd_path_string: String,
@@ -15,6 +21,7 @@ pub struct LightWallet {
 
 impl Default for LightWallet {
     fn default() -> LightWallet {
+        // TODO implement `create(extra_entropy: &[u8])`
         let mnemonic = match Mnemonic::new(MnemonicType::Type12Words, Language::English, "") {
             Ok(b) => b,
             Err(e) => panic!("Error! {}", e)
@@ -29,7 +36,7 @@ impl Default for LightWallet {
 }
 
 impl LightWallet {
-    pub fn derive_key(&self, pw: &str) -> [u8;32] {
+    pub fn derive_pw_key(&self, pw: &str) -> [u8;32] {
         let log_n: u8 = 14;
         let r: u32 = 8;
         let p: u32 = 1;
@@ -40,6 +47,10 @@ impl LightWallet {
         scrypt(pw.as_bytes(), &salt_bytes, &scrypt_params, &mut dk_len);
         
         dk_len
+    }
+
+    pub fn master_key(&self) -> ExtendedPrivKey {
+        ExtendedPrivKey::new_master(EC..., Network::Feather, &self.seed).unwrap()
     }
 }
 

@@ -16,7 +16,7 @@ fn main() {
     let pw = prompt("Please type your password...\n");
 
     let wallet = LightWallet::default();
-    let key: [u8;32] = wallet.derive_key(&pw);
+    let key: [u8;32] = wallet.derive_pw_key(&pw);
 
     println!("{:?}", &key);
 
