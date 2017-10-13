@@ -13,21 +13,23 @@ extern crate feather_wallet;
 use feather_wallet::{ Salt, LightWallet };
 
 fn main() {
-    let pw = prompt("Please type your password...\n");
+    // let pw = prompt("Please type your password...\n");
 
     let wallet = LightWallet::default();
     let priv_key = wallet.master_key();
 
     println!("{:?}", priv_key.secret_key);
+    println!("\n{:?}", priv_key);
+
 
     // let key: [u8;32] = wallet.derive_pw_key(&pw);
 
     // println!("{:?}", &key);
 
-    println!("{}", pw.as_str());
-    let test = Salt::new();
+    // println!("{}", pw.as_str());
+    // let test = Salt::new();
 
-    println!("{}", test.salt_encoded);
+    // println!("{}", test.salt_encoded);
 }
 
 fn prompt(message: &str) -> String {
