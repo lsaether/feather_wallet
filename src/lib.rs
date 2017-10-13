@@ -19,9 +19,10 @@ impl Default for LightWallet {
             Ok(b) => b,
             Err(e) => panic!("Error! {}", e)
         };
+        println!("{}", mnemonic.get_string()); // Prints out the twelve word phrase
         LightWallet {
-            hd_path_string: String::from("m/0'/0'/0"),
-            seed: mnemonic.get_seed(),
+            hd_path_string: String::from("m/0'/0'/0'"),
+            seed: mnemonic.get_seed(), // Seed struct
             salt: Salt::new(),
         }
     }

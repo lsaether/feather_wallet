@@ -3,7 +3,7 @@ extern crate base64;
 extern crate bip39;
 extern crate ring_pwhash;
 
-use bip39::{Mnemonic, MnemonicType, Language, Seed};
+use bip39::{ Mnemonic, MnemonicType, Language, Seed };
 use rand::Rng;
 use std::io;
 use std::io::prelude::*;
