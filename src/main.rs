@@ -2,6 +2,11 @@ extern crate rand;
 extern crate base64;
 extern crate bip39;
 extern crate ring_pwhash;
+extern crate serde;
+extern crate serde_json;
+
+#[macro_use] 
+extern crate serde_derive;
 
 use bip39::{ Mnemonic, MnemonicType, Language, Seed };
 use rand::Rng;
@@ -16,10 +21,12 @@ fn main() {
     // let pw = prompt("Please type your password...\n");
 
     let wallet = LightWallet::default();
-    let priv_key = wallet.master_key();
+    // let priv_key = wallet.master_key();
 
-    println!("{:?}", priv_key.secret_key);
-    println!("\n{:?}", priv_key);
+    let json = serde_json::to_string(&wallet).unwrap();
+    println!("{}", &json);
+    // println!("{:?}", priv_key.secret_key);
+    // println!("\n{:?}", priv_key);
 
 
     // let key: [u8;32] = wallet.derive_pw_key(&pw);
