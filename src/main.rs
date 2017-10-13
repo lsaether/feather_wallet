@@ -13,6 +13,7 @@ use rand::Rng;
 use std::io;
 use std::io::prelude::*;
 use std::fs::File;
+use std::fs::OpenOptions;
 
 extern crate feather_wallet;
 
@@ -25,9 +26,10 @@ fn main() {
     // let priv_key = wallet.master_key();
 
     let json = serde_json::to_vec(&wallet).unwrap();
-    match File::open("keystore.json") {
-        Ok(mut f) => f.write(&json),
-        Err(e) => File::create("keystore.json").unwrap().write(&json),
+
+    match OpenOptions::new().read(true).write(true).truncate(true).create(true).open("keystore.json") {
+        Ok(mut f) => f.write_all(&json),
+        _ => panic!("error! error! this should not have occurred"),
     };
 
     let wallet2 = LightWallet::from_file("keystore.json");
